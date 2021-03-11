@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <Navigation class="navigation" />
+    <Navigation />
     <router-view />
   </div>
 </template>
@@ -75,14 +75,10 @@ export default defineComponent({
 }
 .main {
   height: 100vh;
-  .navigation {
-    z-index: 99;
-    position: fixed;
-    max-width: 1024px;
-    width: 100%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1024px;
+
   .container {
     padding: 0 20px;
   }
