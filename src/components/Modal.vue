@@ -1,6 +1,6 @@
 <template>
-  <div @click="closeModal" class="modal" ref="modal">
-    <div class="modal-wrap" ref="modalWrap">
+  <div @click="closeModal" class="modal" ref="modalRef">
+    <div class="modal-wrap" ref="modalWrapRef">
       <label for="city-name">Enter location:</label>
       <input
         type="text"
@@ -21,17 +21,17 @@ import axios from "axios";
 import db from "../firebase/firebase_init";
 
 export default {
-  name: "modal",
+  name: "Modal",
   props: {
     APIKey: String,
   },
   setup(props, { emit }) {
-    const modal = ref(null);
-    const modalWrap = ref(null);
+    const modalRef = ref(null);
+    const modalWrapRef = ref(null);
     const city = ref("");
 
     const closeModal = (e) => {
-      if (e.target === modal.value) {
+      if (e.target === modalRef.value) {
         emit("close-modal");
       }
     };
@@ -64,8 +64,8 @@ export default {
     };
 
     return {
-      modal,
-      modalWrap,
+      modalRef,
+      modalWrapRef,
       city,
       closeModal,
       addCity,

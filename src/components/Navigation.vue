@@ -3,8 +3,8 @@
     <nav>
       <span>Add City</span>
       <div class="right">
-        <i class="far fa-edit"></i>
-        <i @click="reload" class="fas fa-sync"></i>
+        <i @click="editCities" ref="editCitiesRef" class="far fa-edit"></i>
+        <i @click="reloadCities" class="fas fa-sync"></i>
         <i @click="addCity" class="fas fa-plus"></i>
       </div>
     </nav>
@@ -12,18 +12,25 @@
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "Navigation",
   setup(props, { emit }) {
+    const editCitiesRef = ref(null);
     const addCity = () => {
       emit("add-city");
     };
 
-    const reload = () => {
-      location.reload();
+    const reloadCities = () => {
+      emit("reload-cities");
     };
 
-    return { addCity, reload };
+    const editCities = () => {
+      editCitiesRef.value.classList.toggle("edit-active");
+      emit("edit-cities");
+    };
+
+    return { addCity, reloadCities, editCities, editCitiesRef };
   },
 };
 </script>
@@ -48,6 +55,9 @@ header {
       font-weight: 600;
     }
 
+    .edit-active {
+      color: rgba(210, 75, 75, 1);
+    }
     .right {
       i {
         cursor: pointer;

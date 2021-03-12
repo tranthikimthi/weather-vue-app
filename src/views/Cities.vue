@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="city-link" v-for="(city, index) in cities" :key="index">
-      <City :city="city" />
+      <City :city="city" :edit="edit" />
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@ export default defineComponent({
   name: "Cities",
   props: {
     cities: Array,
+    edit: Boolean,
   },
   components: { City },
   setup() {

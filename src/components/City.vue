@@ -1,5 +1,6 @@
 <template>
   <div class="city">
+    <i v-if="edit" @click="removeCity" class="far fa-trash-alt edit"></i>
     <span>{{ city?.city }}</span>
     <div class="weather">
       <span
@@ -27,14 +28,37 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import db from "../firebase/firebase_init";
 
 export default defineComponent({
   name: "City",
   props: {
     city: Object,
+    edit: Boolean,
   },
-  setup() {},
+  setup(props) {
+    const id = ref(null);
+    const removeCity = () => {
+      const firebaseDB = db.firestore().collection("cities");
+      firebaseDB
+        .where("city", "==", props.city?.city)
+        .get()
+        .then((docs) => {
+          docs.forEach((doc) => {
+            id.value = doc.id;
+          });
+        })
+        .then(() => {
+          firebaseDB.doc(id?.value).delete();
+        })
+        .catch((error) => {
+          alert(error?.message);
+        });
+    };
+
+    return { id, removeCity };
+  },
 });
 </script>
 
@@ -48,6 +72,18 @@ export default defineComponent({
   min-height: 258px;
   color: #fff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  .edit {
+    cursor: pointer;
+    border-radius: 0px 15px 0 0;
+    border: 10px solid rgb(77, 77, 77);
+    background-color: rgb(77, 77, 77);
+    z-index: 1;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
 
   span {
     z-index: 1;

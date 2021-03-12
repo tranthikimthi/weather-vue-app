@@ -1,8 +1,12 @@
 <template>
   <div class="main">
     <Modal v-if="modalOpen" v-on:close-modal="toggleModal" :APIKey="APIKey" />
-    <Navigation v-on:add-city="toggleModal" />
-    <router-view :cities="cities" />
+    <Navigation
+      v-on:add-city="toggleModal"
+      v-on:edit-cities="toggleEdit"
+      v-on:reload-cities="getCityWeather"
+    />
+    <router-view :cities="cities" :edit="edit" />
   </div>
 </template>
 
@@ -23,8 +27,10 @@ export default defineComponent({
     const APIKey = ref("11ef1ee621be9e5e7a31ff6897a7dcaf");
     const cities = ref([]);
     const modalOpen = ref(null);
+    const edit = ref(false);
 
     const getCityWeather = async () => {
+      cities.value = [];
       let firebaseDB = db.firestore().collection("cities");
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async (doc) => {
@@ -47,6 +53,10 @@ export default defineComponent({
             } catch (error) {
               console.log(error);
             }
+          } else if (doc.type === "removed") {
+            cities.value = cities.value.filter(
+              (city) => city.city !== doc.doc.data().city
+            );
           }
         });
       });
@@ -60,12 +70,18 @@ export default defineComponent({
       modalOpen.value = !modalOpen.value;
     };
 
+    const toggleEdit = () => {
+      edit.value = !edit.value;
+    };
+
     return {
       APIKey,
       cities,
       getCityWeather,
       modalOpen,
       toggleModal,
+      edit,
+      toggleEdit,
     };
   },
 });
