@@ -5,7 +5,7 @@
       <div class="right">
         <i class="far fa-edit"></i>
         <i class="fas fa-sync"></i>
-        <i class="fas fa-plus"></i>
+        <i @click="addCity" class="fas fa-plus"></i>
       </div>
     </nav>
   </header>
@@ -14,6 +14,13 @@
 <script>
 export default {
   name: "Navigation",
+  setup(props, { emit }) {
+    const addCity = () => {
+      emit("add-city");
+    };
+
+    return { addCity };
+  },
 };
 </script>
 
@@ -39,6 +46,7 @@ header {
 
     .right {
       i {
+        cursor: pointer;
         font-size: 20px;
         &:not(:first-child) {
           margin-left: 16px;

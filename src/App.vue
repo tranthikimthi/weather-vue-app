@@ -1,6 +1,7 @@
 <template>
   <div class="main">
-    <Navigation />
+    <Modal v-if="modalOpen" v-on:close-modal="toggleModal" :APIKey="APIKey" />
+    <Navigation v-on:add-city="toggleModal" />
     <router-view :cities="cities" />
   </div>
 </template>
@@ -8,17 +9,20 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import Navigation from "./components/Navigation.vue";
+import Modal from "./components/Modal.vue";
 import db from "./firebase/firebase_init";
 import axios from "axios";
 
 export default defineComponent({
   name: "App",
   components: {
+    Modal,
     Navigation,
   },
   setup() {
     const APIKey = ref("11ef1ee621be9e5e7a31ff6897a7dcaf");
     const cities = ref([]);
+    const modalOpen = ref(null);
 
     const getCityWeather = async () => {
       let firebaseDB = db.firestore().collection("cities");
@@ -52,10 +56,16 @@ export default defineComponent({
       getCityWeather();
     });
 
+    const toggleModal = () => {
+      modalOpen.value = !modalOpen.value;
+    };
+
     return {
       APIKey,
       cities,
       getCityWeather,
+      modalOpen,
+      toggleModal,
     };
   },
 });
@@ -73,6 +83,7 @@ export default defineComponent({
   height: 100vh;
   margin: 0 auto;
   max-width: 1024px;
+  background-color: #31363d;
 
   .container {
     padding: 0 20px;

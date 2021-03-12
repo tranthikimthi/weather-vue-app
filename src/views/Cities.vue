@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 import City from "@/components/City.vue";
 
 export default defineComponent({
-  name: "AddCity",
+  name: "Cities",
   props: {
     cities: Array,
   },
@@ -28,7 +28,6 @@ export default defineComponent({
   padding-top: 81px;
   background-color: #31363d;
   width: 100%;
-  min-height: 100vh;
   @media (min-width: 400px) {
     grid-template-columns: repeat(2, 1fr);
   }
