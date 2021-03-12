@@ -6,7 +6,7 @@
       v-on:edit-cities="toggleEdit"
       v-on:reload-cities="getCityWeather"
     />
-    <router-view :cities="cities" :edit="edit" />
+    <router-view :cities="cities" :edit="edit" :APIKey="APIKey" />
   </div>
 </template>
 

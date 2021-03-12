@@ -1,6 +1,11 @@
 <template>
-  <div class="city">
-    <i v-if="edit" @click="removeCity" class="far fa-trash-alt edit"></i>
+  <div class="city" @click="goToWeather">
+    <i
+      v-if="edit"
+      @click="removeCity"
+      class="far fa-trash-alt edit"
+      ref="editRef"
+    ></i>
     <span>{{ city?.city }}</span>
     <div class="weather">
       <span
@@ -30,6 +35,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import db from "../firebase/firebase_init";
+import router from "../router/index";
 
 export default defineComponent({
   name: "City",
@@ -39,6 +45,7 @@ export default defineComponent({
   },
   setup(props) {
     const id = ref(null);
+    const editRef = ref(null);
     const removeCity = () => {
       const firebaseDB = db.firestore().collection("cities");
       firebaseDB
@@ -57,7 +64,13 @@ export default defineComponent({
         });
     };
 
-    return { id, removeCity };
+    const goToWeather = (e) => {
+      if (e.target !== editRef.value) {
+        router.push({ name: "Weather", params: { city: props.city?.city } });
+      }
+    };
+
+    return { id, removeCity, goToWeather, editRef };
   },
 });
 </script>
