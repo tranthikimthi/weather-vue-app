@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <Navigation />
-    <router-view />
+    <router-view :cities="cities" />
   </div>
 </template>
 
@@ -24,7 +24,6 @@ export default defineComponent({
       let firebaseDB = db.firestore().collection("cities");
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async (doc) => {
-          console.log("doc: ", doc.doc.data());
           if (doc.type === "added") {
             try {
               const response = await axios.get(
@@ -40,9 +39,6 @@ export default defineComponent({
                 })
                 .then(() => {
                   cities.value.push(doc.doc.data());
-                })
-                .then(() => {
-                  console.log("cities: ", cities.value);
                 });
             } catch (error) {
               console.log(error);
@@ -76,7 +72,6 @@ export default defineComponent({
 .main {
   height: 100vh;
   margin: 0 auto;
-  width: 100%;
   max-width: 1024px;
 
   .container {

@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    // path: '/',
-    // name: 'AddCity',
-    // component: () => import('../views/AddCity.vue')
+    path: '/',
+    name: 'AddCity',
+    component: () => import('../views/AddCity.vue')
   },
 ]
 
