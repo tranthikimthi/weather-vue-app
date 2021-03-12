@@ -1,24 +1,22 @@
 <template>
   <div class="grid">
     <div class="city-link" v-for="(city, index) in cities" :key="index">
-      <City />
+      <City :city="city" />
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import City from "@/components/City.vue";
 
 export default defineComponent({
   name: "AddCity",
-  props: ["cities"],
+  props: {
+    cities: Array,
+  },
   components: { City },
-  setup(props) {
-    onMounted(() => {
-      console.log("cities: ", props.cities);
-    });
-
+  setup() {
     return {};
   },
 });

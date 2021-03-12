@@ -20,7 +20,7 @@ export default defineComponent({
     const APIKey = ref("11ef1ee621be9e5e7a31ff6897a7dcaf");
     const cities = ref([]);
 
-    const getCityWeather = () => {
+    const getCityWeather = async () => {
       let firebaseDB = db.firestore().collection("cities");
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async (doc) => {
@@ -29,7 +29,7 @@ export default defineComponent({
               const response = await axios.get(
                 `https://api.openweathermap.org/data/2.5/weather?q=${
                   doc.doc.data().city
-                }&units=imperial&appid=${APIKey.value}`
+                }&units=metric&appid=${APIKey.value}`
               );
               const data = response.data;
               firebaseDB
