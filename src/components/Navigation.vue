@@ -4,7 +4,7 @@
       <span>Add City</span>
       <div class="right">
         <i class="far fa-edit"></i>
-        <i class="fas fa-sync"></i>
+        <i @click="reload" class="fas fa-sync"></i>
         <i @click="addCity" class="fas fa-plus"></i>
       </div>
     </nav>
@@ -19,7 +19,11 @@ export default {
       emit("add-city");
     };
 
-    return { addCity };
+    const reload = () => {
+      location.reload();
+    };
+
+    return { addCity, reload };
   },
 };
 </script>
