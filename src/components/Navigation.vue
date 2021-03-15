@@ -1,5 +1,5 @@
 <template>
-  <header class="container">
+  <header v-if="addCityActive" class="container">
     <nav>
       <span>Add City</span>
       <div class="right">
@@ -9,12 +9,27 @@
       </div>
     </nav>
   </header>
+  <header v-else class="container">
+    <nav>
+      <router-link class="router-link" :to="{ name: 'Cities' }">
+        <i class="fas fa-plus"></i>
+      </router-link>
+      <span>
+        {{ new Date().toLocaleString("en-us", { weekday: "short" }) }},
+        {{ new Date().toLocaleString("en-us", { month: "short" }) }}
+        {{ new Date().toLocaleString("en-us", { day: "2-digit" }) }}
+      </span>
+    </nav>
+  </header>
 </template>
 
 <script>
 import { ref } from "vue";
 export default {
   name: "Navigation",
+  props: {
+    addCityActive: Boolean,
+  },
   setup(props, { emit }) {
     const editCitiesRef = ref(null);
     const addCity = () => {

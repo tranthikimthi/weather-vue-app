@@ -2,6 +2,7 @@
   <div class="main">
     <Modal v-if="modalOpen" v-on:close-modal="toggleModal" :APIKey="APIKey" />
     <Navigation
+      :addCityActive="addCityActive"
       v-on:add-city="toggleModal"
       v-on:edit-cities="toggleEdit"
       v-on:reload-cities="getCityWeather"
@@ -11,11 +12,12 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import Navigation from "./components/Navigation.vue";
 import Modal from "./components/Modal.vue";
 import db from "./firebase/firebase_init";
 import axios from "axios";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "App",
@@ -24,10 +26,12 @@ export default defineComponent({
     Navigation,
   },
   setup() {
+    const route = useRoute();
     const APIKey = ref("11ef1ee621be9e5e7a31ff6897a7dcaf");
     const cities = ref([]);
     const modalOpen = ref(null);
     const edit = ref(false);
+    let addCityActive = ref(false);
 
     const getCityWeather = async () => {
       cities.value = [];
@@ -74,7 +78,24 @@ export default defineComponent({
       edit.value = !edit.value;
     };
 
+    const checkRoute = () => {
+      if (route.name === "Cities") {
+        addCityActive = true;
+      } else {
+        addCityActive = false;
+      }
+      console.log("addCityActive: ", addCityActive);
+    };
+
+    watch(
+      () => route.params,
+      async () => {
+        checkRoute();
+      }
+    );
+
     return {
+      route,
       APIKey,
       cities,
       getCityWeather,
@@ -82,6 +103,8 @@ export default defineComponent({
       toggleModal,
       edit,
       toggleEdit,
+      addCityActive,
+      checkRoute,
     };
   },
 });
