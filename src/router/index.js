@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'Cities',
-    component: () => import('../views/Cities.vue')
+    name: 'AddCity',
+    component: () => import('../views/AddCity.vue')
   },
   {
     path: '/weather/:city',

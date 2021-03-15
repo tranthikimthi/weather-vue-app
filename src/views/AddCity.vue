@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 import City from "@/components/City.vue";
 
 export default defineComponent({
-  name: "Cities",
+  name: "AddCity",
   props: {
     cities: Array,
     edit: Boolean,

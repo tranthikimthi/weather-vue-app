@@ -79,7 +79,7 @@ export default defineComponent({
     };
 
     const checkRoute = () => {
-      if (route.name === "Cities") {
+      if (route.name === "AddCity") {
         addCityActive = true;
       } else {
         addCityActive = false;

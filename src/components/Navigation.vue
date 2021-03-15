@@ -11,7 +11,7 @@
   </header>
   <header v-else class="container">
     <nav>
-      <router-link class="router-link" :to="{ name: 'Cities' }">
+      <router-link class="router-link" :to="{ name: 'AddCity' }">
         <i class="fas fa-plus"></i>
       </router-link>
       <span>
